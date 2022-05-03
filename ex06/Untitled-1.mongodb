@@ -1,0 +1,58 @@
+use("blog")
+
+// db.food.insertOne({_id:1, fruit: ["apple", "banana", "peach"]});
+// db.food.insertOne({_id:2, fruit: ["apple", "kumquat", "orange"]});
+// db.food.insertOne({_id:3, fruit: ["cherry", "banana", "apple"]});
+// db.food.insertOne({_id:4, fruit: ["cherry", "raspberry", "peach"]});
+
+// db.food.find({fruit: [
+//   "apple",
+//   "banana",
+//   "peach"
+// ]})
+
+
+// 포함하고 있는가
+//db.food.find({fruit: {$all : ["apple", "banana"]}});
+
+// 둘중 하나라도 있는가?
+//db.food.find({fruit: {$in : ["apple", "banana"]}});
+
+// push 배열 값 추가
+// db.food.updateOne({_id:2},{$push:{fruit:"raspberry"}});
+
+//db.food.find()
+
+// pull 배열 값 제거
+//db.food.updateOne({_id:2},{$pull:{fruit:"raspberry"}});
+//db.food.find()
+
+// 배열 내부의 전체 도큐먼트 생성하기
+// db.post.insertOne({_id:1, replys : [
+//     {id:1, content:"내용1", userId: 1},
+//     {id:2, content:"내용2", userId: 1},
+//     {id:3, content:"내용3", userId: 2},
+// ]});
+// db.post.insertOne({_id:2, replys : [
+//     {id:4, content:"내용4", userId: 1},
+//     {id:5, content:"내용5", userId: 1},
+//     {id:6, content:"내용6", userId: 2},
+// ]});
+
+//db.post.find({"replys.id":4});
+
+// db.post.find({"replys.userId":1});
+// 문서를 통으로 찾는건 가능한데 원하는 것만 찾는게 불가능하다.
+
+
+// 두가지 이상의 필드로 찾아야 할때는 elematch
+// 배열내부의 문서의 여러 필드를 검색할 때
+// db.post.find(
+// {replys:{$elemMatch:{id:4,userId:1}}});
+
+
+db.post.find(
+{replys:{$elemMatch:{id:4,userId:1}},
+},
+{"replys.$":true} // $는 배열 내부에서 찾은 위치를 뱉어낸다. 위치연산자
+);
